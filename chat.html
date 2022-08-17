@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Chatapp</title>
+	<title>Polyglot</title>
+	<link rel="icon" type="image/png" href="images/cs logo.png">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font awesome.min.css">
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 </head>
 <style type="text/css">
   
@@ -36,8 +39,8 @@ body {
 }
 .scroll {
   width: 515px;
-  height: 40px
-  overflow: auto;
+  height: 40px;
+  overflow : auto;
   float: left;
 }
 
@@ -374,150 +377,23 @@ body {
     <br>
     <br>
     <br>
-   
-
-
-
     <div class="foot">
         <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">POLYGLOT cc.</p>
+        <p class="m-0 text-center text-white"><b>POLYGLOT cc.</b></p>
       </div>
     </footer>
 
     </div>
-
-    
-
 </body>
+<py-script>
+	from googletrans import Translator
+ translator = Translator(service_urls=['translate.google.com','translate.google.co.kr',])
+	translations = translator.translate([], dest=)
+ for translation in translations:
+print(translation.origin, ' -> ', translation.text)
+</py-script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-<script>
-  var socket = io.connect();
-  let app = new Vue({
-  	el:'#app',
-  	data:{
-  		newmessage:null,
-  		messages :[],
-  		typing:false,
-  		name:null,
-  		friends:[],
-      roomname:null,
-      lang:null,
-      rom:"abc",
-  		ready:false,
-      oldready:false
-      
-  	},
-  	watch:{
-  			newmessage(value){
-  				value ? socket.emit('typing',{name:this.name,rm:this.rom}):socket.emit('stoptyping',{rm:this.rom})
-  			}
-  	},
-  	methods:{
-  		send(){
-  				this.messages.push({message:this.newmessage,type:0,by:"Me"})
-
-  				socket.emit('chat-message',{message:this.newmessage,user:this.name,rm:this.rom})
-          
-  				this.newmessage=null
-          var container = this.$el.querySelector(".chat-history");
-          container.scrollTop = container.scrollHeight;
-  		},
-  		addName(){
-        if(this.rom.length === 4){
-          console.log(this.rom);
-          socket.emit('creat', this.rom);
-
-
-  			   this.ready=true
-
-        }else{
-          alert("the pin should be 4 digits");
-        }
-  			socket.emit('joined',{name:this.name,rm:this.rom})
-  		}
-  	},
-  	created(){
-
-
-
-  			window.onbeforeunload=()=>{
-  				socket.emit('left',{name:this.name,rm:this.rom})
-  			}
-  			
-       
-
-       socket.on('creat',(data)=>{
-            console.log("reached");
-
-              if(this.oldready === false){
-                  var container = this.$el.querySelector(".chat-history");
-
-                  container.scrollTop = container.scrollHeight;
-
-                this.roomname=data.rn;
-                var oldcht = data.oldchat.split("#5#");
-                for(var i=0;i<oldcht.length-1;i++){
-                  var msgandname=oldcht[i].split("##");                    
-                  if(msgandname[1] === this.name){
-                    this.messages.push({message:msgandname[0],type:0,by:"Me"})
-                  }else{
-                   
-                    this.messages.push({message:msgandname[0],type:1,by:msgandname[1]})
-                  }
-
-                }
-                this.oldready = true;
-              }
-
-        })
-  			socket.on('chat-message',(data)=>{
-
-
-          var rm = data.rm;
-          console.log(rm);
-          var url = "https://translate.yandex.net/api/v1.5/tr.json/translate",
-          keyAPI = "trnsl.1.1.20181027T084314Z.3006f154770de67a.ac5f601ad6036cf48a50a5070cd925483f823cc6";
-          var textAPI = data.message;
-          var dataTr = "key="+keyAPI+"&text="+textAPI+"&lang="+this.lang;
-        
-          var app=this;  
-            axios.get(url+"?"+dataTr).then(function (response){
-            console.log(response.data.text);
-            var x =JSON.stringify(response.data.text).split(/"/);
-            app.messages.push({message:x[1],type:1,by:data.user});
-          })
-
-
-          var container = this.$el.querySelector(".chat-history");
-          container.scrollTop = container.scrollHeight;
-  			})
-
-  			socket.on('typing',(name)=>{
-  				this.typing=name.name;
-  			})
-
-  			socket.on('stoptyping',()=>{
-  				this.typing=false;
-  			})
-
-  			socket.on('joined',(data)=>{
-  				this.friends.push({name:data.name,type:"online"})
-  			})
-
-  			socket.on('left',(data)=>{
-          for(var i=0;i<this.friends.length;i++){
-            if(this.friends[i].name === data.name){
-              Vue.set(this.friends.splice(i,1))
-            }
-          }
-  				
-  			})
-
-  	}
-  })
-</script>s
 </html>
