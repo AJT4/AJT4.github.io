@@ -278,7 +278,7 @@ body {
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <!--<div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
               <a class="nav-link" href="index.html">Main</a>
@@ -291,7 +291,7 @@ body {
               <a class="nav-link" href="code.html">Code</a>
             </li>     
           </ul>
-        </div>
+        </div>-->
       </div>
     </nav>
 
@@ -305,13 +305,22 @@ body {
             <h2 class="joincht">Join A Chatroom</h2>
 					   <div  class="containerInputs">
 									<form @submit.prevent="addName">
-				  							<div class="form-group formJoin">
+				  							<div class="form-group formJoin" style="background:#D3D3D3;border-radius:7px">
 
-							  			<input type="text" class="form-control" v-model="name" style="border:0px;line-height:2"placeholder="Enter name"><br>
+							  			<input type="text" class="form-control" v-model="name" style="border:0px;line-height:2" placeholder="Enter name"><br>
                             <input type="text" class="form-control " v-model="rom" style="border:0px;line-height:2" placeholder="Enter room"><br>
-<br>
+												<select id="lang" class="form-control" style="border:0px;line-height:2" >
+													<option>Select Language</option>
+													<option value="1">English</option>
+													<option value="2">Hindi</option>
+													<option value="3">Malayalam</option>
+													<option value="4">Tamil</option>
+													<option value="5">Telugu</option>
+													<option value="6">Kannada</option>
+													</select>
+ <br><br>
                                     <div style="margin-left:40%;">
-							  						<input type="submit" value="Join" style="border:0px; padding:5%;background-color:#444753; color:#fff;border-radius:7px;width:30%">
+							  						<input type="submit" value="Join" style="border:0px; padding:5%;background-color:#444753; color:#fff;border-radius:7px;width:35%">
                             </div>
 			  								</div>
 									</form>
