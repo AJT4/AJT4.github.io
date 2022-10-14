@@ -304,9 +304,9 @@ body {
 									<form @submit.prevent="addName" id="joinchat">
 				  							<div class="form-group formJoin" style="background:#D3D3D3;border-radius:7px">
 
-<input type="text" class="form-control" v-model="name" style="border:0px;line-height:2" placeholder="Enter name" id="name"><br>
-<input type="text" class="form-control " v-model="rom" style="border:0px;line-height:2" placeholder="Enter room" id="room"><br>
-												<select id="lang" class="form-control" style="border:0px;line-height:2" >
+<input type="text" class="form-control" v-model="name" style="border:0px;line-height:2" placeholder="Enter name" id="name" required><br>
+<input type="text" class="form-control " v-model="rom" style="border:0px;line-height:2" placeholder="Enter room" id="room" required><br>
+												<select id="lang" class="form-control" style="border:0px;line-height:2" required>
 												<option selected disabled>-Select Language-</option>
 													<option value="en">English</option>
 													<option value="hi">Hindi</option>
@@ -317,11 +317,11 @@ body {
 													</select>
  <br><br>
 <div style="margin-left:40%;">
-<input type="submit" value="Join" style="border:0px; padding:5%;background-color:#444753; color:#fff;border-radius:7px;width:35%">
+<input type="button" id="submit" value="Join" style="border:0px; padding:5%;background-color:#444753; color:#fff;border-radius:7px;width:35%">
 </div>
 												
 </div>
-</form><a href="Join Creator.html"><b><button class="button button4">Create a Room</button></b></a>
+</form><input type="button" value="Create a Room" style="border:0px; padding:5%;background-color:#444753; color:#fff;border-radius:7px;width:55%; align-items: center">
 </div>             
 </div>
 </div>
@@ -334,10 +334,19 @@ body {
     </footer>
 
     </div>
-</body>
-	<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-analytics.js";
+</body> <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.12.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyB5B-7WM0EX2YM_kQDQXNaixejpYEevlMY",
     authDomain: "mapgo-f01f5.firebaseapp.com",
@@ -345,57 +354,42 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-
     projectId: "mapgo-f01f5",
     storageBucket: "mapgo-f01f5.appspot.com",
     messagingSenderId: "496899577881",
-    appId: "1:496899577881:web:82694b7eb8487149357288",
-    measurementId: "G-8EZLBGQ1T8"
+    appId: "1:496899577881:web:37efafa6887737fc357288",
+    measurementId: "G-8M73VKYR34"
   };
-import { getDatabase,ref,set,child,update,remove ,get,onValue} from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.9.4/firebase-database.min.js";
-const app = initializeApp(firebaseConfig);
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+	import { getDatabase,ref,set,child,update,remove ,get,onValue} from "https://www.gstatic.com/firebasejs/9.12.0/firebase-database.js"
+	
+	const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase();
-document.getElementById('joinchat').addEventListener('submit',adddata);
-		function getval(id)
-		{
-			return document.getElementById(id).value;
-		}
-		
-		function adddata()
-		{
-		var name=getval('name');
-		var room=getval('room');
-		var lang=getval('lang');
+	var room = document.getElementById("room");
+	var name = document.getElementById("name");
+	var lang = document.getElementById("lang");
+	
+	var sumit = document.getElementById("submit");
+	
+	function addData()
+	{
+		set(ref(db,"login/"+room.value),{
+			room:room.value,
+			name:name.value,
+			lang:lang.value;
 			
-			db.on('login', function(snapshot) {
-   var check = snapshot.val();
-   if (check.room != room)
-		{
-			
-				set(ref(db,"login/"),{
-               creator:name,
-                room:room,
-				clang:lang
-            })
-			}
-		else if(check.joiner=="" && check.room==room)
-		{
-		if(check.creator != name)
-		{
-			alert("Name Exists, Select a New Name");
-		}
-			else
-				{
-				set(ref(db,"login/"),{
-               joiner:name,
-				jlang:lang
-            })
-				}
-		}
-		else
-			{
-				alert("Room Exists,Create a New Room");
-			}
-		}
-		
-
+		})
+		.then(()=>{
+			alert("qwerty");
+		})
+		.catch((Error)=>{
+			alert("no-no"+Error);
+		});
+	}
+	sumit.addEventListener("click",addData);
+	
+	
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>

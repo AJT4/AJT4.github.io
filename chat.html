@@ -397,8 +397,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-
     storageBucket: "mapgo-f01f5.appspot.com",
     messagingSenderId: "496899577881",
     appId: "1:496899577881:web:82694b7eb8487149357288",
-    measurementId: "G-8EZLBGQ1T8"
-  };
+    measurementId:"G-8EZLBGQ1T8"};
 import { getDatabase,ref,set,child,update,remove ,get,onValue} from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.9.4/firebase-database.min.js";
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -407,6 +406,21 @@ const db = getDatabase();
     onValue(dbref,(snapshot)=>{
             var message = snapshot.val().message;
     })
+function trans()
+{
+    const text ="";
+    const translateFrom = "", translateTo = "";
+    var toText = "";
+    document.write("<h1> translater</h1><br>");
+    let apiUrl = `https://api.mymemory.translated.net/get q=${text}&langpair=${translateFrom}|${translateTo}`;
+    fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+        toText = data.responseData.translatedText;
+        console.log(toText);
+        document.writeln("translated text:"+toText);
+    });
+}
   </script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
