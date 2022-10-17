@@ -382,7 +382,7 @@ body {
 
     </div>
 </body>
-	<script type="module">
+<script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-analytics.js";
@@ -407,11 +407,33 @@ body {
   const analytics = getAnalytics(app);
   import { getDatabase,ref,set,child,update,remove ,get,onValue} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js"
   const db = getDatabase();
-	var room = document.getElementById("room");
-	var name = document.getElementById("name");
-	var lang = document.getElementById("lang");
 	
-	var submit = document.getElementById("submit");
+		var submit = document.getElementById("submit");
+	var userdata = null;
+	function getUser()
+		{
+			userdata=JSON.parse(sessionStorage.getItem('user'));
+		}
+		window.onload=function()
+	    {
+		getUser();
+		if (userdata==null)
+			{
+				window.location="index.html"
+			}
+	     }
+		
+	var room = userdata.room;
+	var jname = userdata.jname;
+	var jlang = userdata.jlang;
+		const dbref = ref(db);
+		get(child(dbref,"login/"+room.value)).then((snapshot)=>
+	    {
+		var cname = snapshot.val().cname;
+     	var clang = snapshot.val().clang;
+		})
+	
+	
 	function isEmpty(str)
 	{
 		return str ===null|| str.match(/^ *$/) !==null;
@@ -420,7 +442,7 @@ body {
 	{
 		let roomck=/[a-bA-Z0-9]{3,8}/;
 		let nameck=/[a-bA-Z0-9\s]{3,12}/;
-		if(isEmpty(room.value)||isEmpty(name.value)||isEmpty(lang.value))
+		if(isEmpty(room.value))
 			{
 				alert("!Empty");
 				return false;
@@ -431,10 +453,12 @@ body {
 				return false;
 			}
 		
+		
 	function trans()
 {
     const text ="";
-    const translateFrom = "", translateTo = "";
+    const translateFrom = "", 
+		  translateTo = "";
     var toText = "";
     document.write("<h1> translater</h1><br>");
     let apiUrl = `https://api.mymemory.translated.net/get q=${text}&langpair=${translateFrom}|${translateTo}`;
@@ -446,6 +470,12 @@ body {
         document.writeln("translated text:"+toText);
     });
 }
+		
+		function Signout()
+		{
+			sessionStorage.removeItem('user');
+			window.location="index.html";
+		}
 		</script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
