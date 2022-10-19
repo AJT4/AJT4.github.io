@@ -417,6 +417,15 @@ body {
 	return false;	
 	}
 	});
+		dbref.child("login").child(${room})
+			.orderByChild("jname")
+			.equalTo(${name})
+			.once("value",snapshot => {
+    if (snapshot.exists())
+	{
+	return false;	
+	}
+	});
 		return true;}
 																						
 	    function addData()
@@ -431,7 +440,15 @@ body {
 			{
 			room:room.value,
 			jname:name.value,
-			jlang:lang.value
+			jlang:lang.value,
+			jstatus:'1'
+		    })
+			update(ref(db,"data/"+room.value),
+				{
+			room:room.value,
+			jname:"",
+			jmess:"",
+			jtime:""
 		    })
 		    .then(()=>
 			{

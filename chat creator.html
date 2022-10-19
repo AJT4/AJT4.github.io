@@ -380,7 +380,7 @@ body {
     <div class="foot">
         <footer class="py-5 bg-dark" style="position:fixed;bottom:0%;left:0%;width:100%">
       <div class="container">
-        <p class="m-0 text-center text-white"><b>POLYGLOT cc.</b></p>
+        <p class="m-0 text-center text-white"><b>AJT cc.</b></p>
       </div>
     </footer>
 
@@ -474,11 +474,30 @@ body {
         document.writeln("translated text:"+toText);
     });
 }
+		function SendMessage()
+		{
+			update(ref(db,"data/"+room.value),
+				{
+			room:room.value,
+			cname:name.value,
+			cmess:mess.value,
+			ctime:
+		    })
+		}
 		
 		function Signout()
 		{
 			sessionStorage.removeItem('user');
 			window.location="index.html";
+			if(jstatus==0)
+				{
+					delete Data
+					login
+				}
+		    else
+				{
+					cstatus='0';
+				}
 		}
 		</script>
 <script src="/socket.io/socket.io.js"></script>
