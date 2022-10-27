@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">	
   <title>POLYGLOT||CREATOR-ROOM</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="icon" type="image/png" href="images/logo.png">
@@ -44,7 +45,7 @@ body {
   margin: 25px 10px;
   height: calc(100% - 50px);
   border: var(--border);
-  border-radius: 20px;
+  border-radius: 20px 20px 30px 33px;
   background: var(--msger-bg);
   box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
 }
@@ -131,13 +132,13 @@ body {
   display: flex;
   padding: 10px;
   border-top: var(--border);
-  border-radius: 15px;
+  border-radius: 30px;
   background: #B0B0B0;
 }
 .msger-inputarea * {
   padding: 10px;
   border: none;
-  border-radius: 15px;
+  border-radius: 30px;
   font-size: 1em;
 }
 .msger-input {
@@ -146,7 +147,7 @@ body {
 }
 .msger-send-btn {
   margin-left: 10px;
-	border-radius: 15px;
+	border-radius: 30px;
   background:#23283b;
   color: #fff;
   font-weight: bold;
@@ -177,7 +178,7 @@ body {
   </main>
 <form class="msger-inputarea">
     <input type="text" class="msger-input" placeholder="Enter your message...">
-    <button type="submit" class="msger-send-btn">Send</button>
+    <button type="submit" class="msger-send-btn">SEND</button>
   </form>
 </section>
 <script type="module">
@@ -311,12 +312,50 @@ function formatDate(date) {
     .then(res => res.json())
     .then(data => {
         toText = data.responseData.translatedText;
-		
       });
     return toText;
 
 }
-  
+		 function Signout()
+		{
+			get(child(dbref,"login/"+id+"/jstat"))
+			  .then ( (snapshot)=>
+		    {
+			if(snapshot.val()=="0")
+			{
+				fresh();
+			}
+			else
+			{
+			update(ref(db,"login/"+id),{
+			cstat:"0",
+		    })		
+			}
+			});
+		}
+	function fresh()
+		{
+			remove(ref(db,"login/"+id)),
+			remove(ref(db,"data/"+id))	
+			.then(()=>{
+			sessionStorage.clear();
+            window.location="index.html";		
+			});
+		
+		}
+   const ustat = ref(db, 'data/' + id + '/jstat');
+    onValue(ustat, (snapshot) => 
+		{
+    const BOT_stat = snapshot.val();
+		if (BOT_stat==1)
+			{
+			online;	
+			}
+	    else
+		    {
+			offline;
+	    	}
+	});
 </script>
 </body>
 </html>
