@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <link rel="icon" type="image/png" href="images/logo.png">
+     <link rel="icon" type="image/png" href="./images/logo.png">
 </head>
 
 <style type="text/css">
@@ -203,7 +203,7 @@
         <main class="msger-chat"> </main>
         <form class="msger-inputarea">
             <input type="text" class="msger-input" placeholder="Enter your message...">
-            <button type="submit" class="msger-send-btn">SEND</button>
+            <button type="submit" class="msger-send-btn"><i class="far fa-paper-plane"></i></button>
         </form>
     </section>
     <script type="module">
@@ -227,7 +227,7 @@
         };
 
         window.onload = function () {
-            checkuser();
+           // checkuser();
         }
         function checkuser() {
             const chker = sessionStorage.getItem("user");
@@ -325,7 +325,7 @@
 
         async function trans(text, translateFrom, translateTo) {
             var toText = "";
-            let apiUrl = `https://api.mymemory.translated.net/get? q=${text}&langpair=${translateFrom}|${translateTo}`;
+            let apiUrl = `https://api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
             await fetch(apiUrl)
                 .then(res => res.json())
                 .then(data => {
@@ -363,9 +363,10 @@
                     });
 
         }
-        const ustat = ref(db, 'data/' + id + '/jstat');
+        const ustat = ref(db, 'login/' + id + '/jstat');
         onValue(ustat, (snapshot) => {
             const BOT_stat = snapshot.val();
+            console.log(snapshot.val());
             if (BOT_stat == 1) 
             {
             const msgHTML = `

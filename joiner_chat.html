@@ -4,10 +4,10 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POLYGLOT||JOINER-ROOM</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="icon" type="image/png" href="./images/logo.png">
 </head>
 <style type="text/css">
     :root {
@@ -171,7 +171,7 @@
         font-weight: bold;
         cursor: pointer;
         transition: background 0.23s;
-        
+
     }
 
     .msger-send-btn:hover {
@@ -204,7 +204,7 @@
         </main>
         <form class="msger-inputarea">
             <input type="text" class="msger-input" placeholder="Enter your message...">
-            <button type="submit" class="msger-send-btn">SEND</button>
+            <button type="submit" class="msger-send-btn"><i class="far fa-paper-plane"></i></button>
         </form>
     </section>
     <script type="module">
@@ -238,8 +238,8 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-        import { getDatabase, ref, set, child, update, remove, get, onValue } 
-        from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js"
+        import { getDatabase, ref, set, child, update, remove, get, onValue }
+            from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js"
         const db = getDatabase();
         const dbref = ref(db);
         const user = sessionStorage.getItem("user");
@@ -250,7 +250,7 @@
         const msgerChat = getss(".msger-chat");
         const BOT_MSGS = "";
         const PERSON_NAME = user;
-       
+
         document.getElementById("sign").addEventListener("click", signout);
         var title = getss("#info");
         title.textContent = id;
@@ -325,8 +325,7 @@
 
         async function trans(text, translateFrom, translateTo) {
             var toText = "";
-            let apiUrl = `https://api.mymemory.translated.net/get
-            ? q=${text}&langpair=${translateFrom}|${translateTo}`;
+            let apiUrl = `https://api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
             await fetch(apiUrl)
                 .then(res => res.json())
                 .then(data => {
@@ -345,9 +344,9 @@
                         update(ref(db, "login/" + id), {
                             jstat: "0",
                         }).then(() => {
-                        sessionStorage.clear();
-                        window.location = "index.html";
-                    });
+                            sessionStorage.clear();
+                            window.location = "index.html";
+                        });
                     }
                 });
         }
@@ -361,12 +360,12 @@
                     });
 
         }
-        const ustat = ref(db, 'data/' + id + '/cstat');
+        const ustat = ref(db, 'login/' + id + '/cstat');
         onValue(ustat, (snapshot) => {
+            console.log(snapshot.val());
             const BOT_stat = snapshot.val();
-            if (BOT_stat == 1) 
-                {
-            const msgHTML = `
+            if (BOT_stat == 1) {
+                const msgHTML = `
                 <div class="msg left-msg">
                 <div class="msg-bubble">
                     <div class="msg-info">
@@ -377,13 +376,12 @@
                 </div>
                 </div>
             `;
-            msgerChat.insertAdjacentHTML("beforeend", msgHTML);
-            msgerChat.scrollTop += 500;
-        }
-           
-            else 
-            {
-            const msgHTML = `
+                msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+                msgerChat.scrollTop += 500;
+            }
+
+            else {
+                const msgHTML = `
                 <div class="msg left-msg">
                 <div class="msg-bubble">
                     <div class="msg-info">
@@ -394,11 +392,12 @@
                 </div>
                 </div>
             `;
-            msgerChat.insertAdjacentHTML("beforeend", msgHTML);
-            msgerChat.scrollTop += 500;
-        }
+                msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+                msgerChat.scrollTop += 500;
+            }
         });
         window.onbeforeunload = signout;
     </script>
 </body>
+
 </html>
